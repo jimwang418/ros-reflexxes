@@ -43,8 +43,21 @@ add_library(ReflexxesTypeII SHARED src/TypeIIRML/ReflexxesAPI.cpp
                                    src/TypeIIRML/TypeIIRMLVelocitySetupPhaseSyncSelectionVector.cpp
 )
 
+target_include_directories(ReflexxesTypeII
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
+
 install(DIRECTORY include/ DESTINATION include)
-install(TARGETS ReflexxesTypeII LIBRARY DESTINATION lib)
+install(
+  TARGETS ReflexxesTypeII
+  EXPORT ReflexxesTypeII_export
+  LIBRARY DESTINATION lib)
+
+ament_export_include_directories(include)
+ament_export_libraries(ReflexxesTypeII)
+ament_export_targets(ReflexxesTypeII_export HAS_LIBRARY_TARGET)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
